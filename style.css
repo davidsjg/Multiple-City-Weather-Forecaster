@@ -24,6 +24,17 @@ button {
   display: block;
 }
 
+.day {
+  background-color: blue;
+  margin-left: 10px;
+  margin-right: 20px;
+  color: white;
+}
+
+#cityCurrent {
+  float: right;
+}
+
 /* .searchColumn {
   background-color: black;
   color: rgb(238, 238, 238);

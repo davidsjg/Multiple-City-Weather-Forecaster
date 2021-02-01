@@ -18,35 +18,28 @@
 <!-- Grid layout with rows and columns -->
 
 <container class="main">
-
-    <ul class="nav flex-column-3">
-        <li class="nav-item">
-            <div class="searchColumn">
+    <div class="row">
+        <div class="col-3 searchColumn">
                 <input type="text" class="inputValue">
                 <input type="submit" value="Search">
-            </div>
-        </li>
+        </div>
         <div class="col-9">
             <div class="row">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row city">
-                            <p>TEST1</p> 
+                        <div class="row">
+                            <div class="container" id="cityCurrent"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row fiveDay">
-                            <p>TEST1</p> 
-                        </div>
-                    </div>
-                </div>
+                    <div class="row" id="fiveDayTitle"></div>
+            </div>
+            <div class="row">
+                    <div class="row" id="fiveDay"></div>
             </div>
         </div>    
-    </ul>
 </div>
 
 
@@ -84,6 +77,84 @@
 
     }
 
+    //dynamically create city display current conditions
+    var cityTitle = $("<h2>")
+    cityTitle.text("Denver:")
+    $("#cityCurrent").append(cityTitle)
+    //dynamically create temperature display current conditions
+    var cityTemp = $("<h6>")
+    cityTemp.text("Temperature:")
+    $("#cityCurrent").append(cityTemp)
+    //dynamically create humidity display current conditions
+    var cityHumidity = $("<h6>")
+    cityHumidity.text("Humidity:")
+    $("#cityCurrent").append(cityHumidity)
+    //dynamically create wind speed display current conditions
+    var cityWindSpeed = $("<h6>")
+    cityWindSpeed.text("Wind Speed:")
+    $("#cityCurrent").append(cityWindSpeed)
+    //dynamically create uv index display current conditions
+    var cityUVIndex = $("<h6>")
+    cityUVIndex.text("UV Index:")
+    $("#cityCurrent").append(cityUVIndex)
+
+    //dynamically create 5 day title display 
+    var day1 = $("<h2>")
+    day1.text("5-Day Forecast")
+    day1.attr("class", "day")
+    $("#fiveDayTitle").append(day1)
+
+    //dynamically create day 1 display forecast conditions
+    var day1 = $("<container>")
+    // day1.text("SUNNNNNNY AF")
+    day1.attr("class", "day")
+    day1.attr("id", "day")
+    $("#fiveDay").append(day1)
+    //dynamically create day 2 display forecast conditions
+    var day2 = $("<container>")
+    day2.text("ISSSS GON RAIN")
+    day2.attr("class", "day")
+    day2.attr("id", "day")
+    $("#fiveDay").append(day2)
+    //dynamically create day 3 display forecast conditions
+    var day3 = $("<container>")
+    day3.text("ISS BLOWIN YALL")
+    day3.attr("class", "day")
+    day3.attr("id", "day")
+    $("#fiveDay").append(day3)
+    //dynamically create day 4 display forecast conditions
+    var day4 = $("<container>")
+    day4.text("ISS BLOWIN YALL")
+    day4.attr("class", "day")
+    day4.attr("id", "day")
+    $("#fiveDay").append(day4)
+    //dynamically create day 5 display forecast conditions
+    var day5 = $("<container>")
+    day5.text("ISS BLOWIN YALL")
+    day5.attr("class", "day")
+    day5.attr("id", "day")
+    $("#fiveDay").append(day5)
+
+    //dynamically create day date for day 1
+    var date1 = $("<div>")
+    date1.text("--date--")
+    date1.attr("class", "date1")
+    $("#day").append(date1)
+    //dynamically create img for day 1
+    var date2 = $("<div>")
+    date2.text("--currentSky--")
+    date2.attr("class", "currentSky1")
+    $("#day").append(date2)
+    //dynamically create temp for day 1
+    var date3 = $("<div>")
+    date3.text("Temp:")
+    date3.attr("class", "currentSky1")
+    $("#day").append(date3)
+    //dynamically create humidity for day 1
+    var date4 = $("<div>")
+    date4.text("Humidity:")
+    date4.attr("class", "currentSky1")
+    $("#day").append(date4)
 
 
 

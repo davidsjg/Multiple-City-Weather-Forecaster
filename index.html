@@ -57,57 +57,115 @@
         $(".mainDisp").text("WEATHER DASHBOARD")
     })
 
+    // loadLocalStorage ()
+
     $("#fullDisplay").hide()
 
-    //ON CLICK EVENT carries out after search button is pressed 
+    // ON CLICK EVENT carries out after search button is pressed  >>>>>>>>>> ON CLICK - SEARCH
     $("#searchBtn").on("click", function() {
+        var cityName = $("#cityEntered").val()
+        var inputVal = $(this).name
+        console.log(this)
 
-    $("fullDisplay").html("")
-    $("#fullDisplay").show()
 
-    var weatherKey = "0e06fc3239af5ded708f925cfeb73640"
-    var cityName = $("#cityEntered").val()
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + weatherKey
-    // makes promise and pulls weather API from openweathermap
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function(response) {
-        // creating searched city button dynamically 
-        var cityButton = $("<button>").text(response.name).attr("class", "cityList")
-        //adds button to search history
-        $("#searchHistory").prepend(cityButton)
-        console.log(response)
-        fillCityData(response)
-        fillFivedayData(response)
-    });
 
-    // var queryURL2 = "api.openweathermap.org/data/2.5/forecast/daily?q=" + cityName + "&cnt=5&appid=" + weatherKey    
 
-    var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast/daily?q=Boston&cnt=5&appid=0e06fc3239af5ded708f925cfeb73640"
-    $.ajax({
-        url: queryURL2,
-        method: "GET"
-    }).then(function(resonse) {
-        console.log(resonse)
-        fillFivedayData(response)
-    })
-    })
+
+
+
+
+
+        // $("#fullDisplay").  HOW DO I CLEAR THAT DAMN DIV WHEN I CLICK SEARCH FOR SECOND TIME??
+        $("#fullDisplay").show()
+
+        var weatherKey = "0e06fc3239af5ded708f925cfeb73640"
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + weatherKey
+        // makes promise and pulls weather API from openweathermap
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response) {
+            var results = response.data 
+            var parentID = response.id
+            localStorage.setItem(parentID, JSON.stringify(response))
+            // creating searched city button dynamically ®
+            addCityButton(response)
+            getWeather(response)
+        });
+
+        // var queryURL2 = "api.openweathermap.org/data/2.5/forecast/daily?q=" + cityName + "&cnt=5&appid=" + weatherKey    
+
+        var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast/daily?q=Boston&cnt=5&appid=0e06fc3239af5ded708f925cfeb73640"
+        $.ajax({
+            url: queryURL2,
+            method: "GET"
+        }).then(function(resonse) {
+            console.log(resonse)
+            fillFivedayData(response)
+        })
+        })
+
 
     $("#searchHistory").on("click", function(){
-        fillCityData(event);
-        fillFivedayData(event);
+        console.log(this)
+        console.log("you are in serach history click")
+        fillCityData(this)
+        fillFivedayData(this)
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response) {
+            var results = response.data 
+            // creating searched city button dynamically ®
+            addCityButton(response)
+            fillCityData(response)
+            fillFivedayData(response)
+        });
 
 
     })
 
-function fillCityData (response){
 
-    var tempK = response.main.temp
+function getWeather (currWeather) {
+console.log(currWeather)
+    var weatherKey = "0e06fc3239af5ded708f925cfeb73640"
+        var cityName = $("#cityEntered").val()
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + weatherKey
+        // makes promise and pulls weather API from openweathermap
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(currWeather) {
+            var results = currWeather.data 
+            // creating searched city button dynamically ®
+            fillCityData(currWeather)
+            fillFivedayData(currWeather)
+        });
+
+}
+
+
+function addCityButton (cityEnt) {
+
+    var cityButton = $("<button>").text(cityEnt.name).attr("class", "cityList")
+    //adds button to search history
+    $("#searchHistory").prepend(cityButton)
+    console.log(cityEnt)
+
+
+}
+
+
+function fillCityData (fillData){
+
+    console.log(fillData)
+
+    var tempK = fillData.temp
     tempF = ((tempK - 273.15) * 1.8 +32).toFixed(0)
 
     var cityTitle = $("<h2>")
-    cityTitle.text(response.name)
+    cityTitle.text(fillData.name)
     $("#cityCurrent").append(cityTitle)
     //dynamically create temperature display current conditions
     var cityTemp = $("<h6>")
@@ -115,11 +173,11 @@ function fillCityData (response){
     $("#cityCurrent").append(cityTemp)
     //dynamically create humidity display current conditions
     var cityHumidity = $("<h6>")
-    cityHumidity.text("Humidity: " + response.main.humidity + "%")
+    cityHumidity.text("Humidity: " + fillData.main.humidity + "%")
     $("#cityCurrent").append(cityHumidity)
     //dynamically create wind speed display current conditions
     var cityWindSpeed = $("<h6>")
-    cityWindSpeed.text("Wind Speed: " + response.wind.speed + " MPH")
+    cityWindSpeed.text("Wind Speed: " + fillData.wind.speed + " MPH")
     $("#cityCurrent").append(cityWindSpeed)
     //dynamically create uv index display current conditions
     // var cityUVIndex = $("<h6>")
@@ -168,7 +226,7 @@ function fillFivedayData (response){
     //dynamically create day 5 display forecast conditions
     var day5 = $("<container>").text("ISS BLOWIN YALL").attr("class", "day").attr("id", "day")
     $("#fiveDay").append(day5)
-    }
+}
 
     
 </script>

@@ -57,19 +57,12 @@
         $(".mainDisp").text("WEATHER DASHBOARD")
     })
 
-    var newDiv = $("<div>")
-    var newSearch =$("<submit>")
-    var newButton = $("<button>")
-    var cityCurr = $("cityCurrent")
-    var dispCurr = $("fiveDay")
-
-
     $("#fullDisplay").hide()
 
     //ON CLICK EVENT carries out after search button is pressed 
     $("#searchBtn").on("click", function() {
 
-    $("fullDisplay").text("")
+    $("fullDisplay").html("")
     $("#fullDisplay").show()
 
     var weatherKey = "0e06fc3239af5ded708f925cfeb73640"
@@ -86,6 +79,7 @@
         $("#searchHistory").prepend(cityButton)
         console.log(response)
         fillCityData(response)
+        fillFivedayData(response)
     });
 
     // var queryURL2 = "api.openweathermap.org/data/2.5/forecast/daily?q=" + cityName + "&cnt=5&appid=" + weatherKey    
@@ -98,9 +92,11 @@
         console.log(resonse)
         fillFivedayData(response)
     })
+    })
 
-
-
+    $("#searchHistory").on("click", function(){
+        fillCityData(event);
+        fillFivedayData(event);
 
 
     })
@@ -132,7 +128,7 @@ function fillCityData (response){
 
 }
 
-function fillFivedayData (response){}
+function fillFivedayData (response){
 
 
     //dynamically create 5 day title display 
@@ -172,86 +168,8 @@ function fillFivedayData (response){}
     //dynamically create day 5 display forecast conditions
     var day5 = $("<container>").text("ISS BLOWIN YALL").attr("class", "day").attr("id", "day")
     $("#fiveDay").append(day5)
+    }
 
-    //dynamically create day date for day 1
-    var date1 = $("<div>").text("--date--").attr("class", "date")
-    $("#day").append(date1)
-    //dynamically create img for day 1
-    var date2 = $("<div>").text("--currentSky--").attr("class", "currentSky")
-    $("#day").append(date2)
-    //dynamically create temp for day 1
-    var date3 = $("<div>").text("Temp:").attr("class", "currentTemp")
-    $("#day").append(date3)
-    //dynamically create humidity for day 1
-    var date4 = $("<div>").text("Humidity:").attr("class", "currentHum")
-    $("#day").append(date4)
-
-
-
-
-
-//             var queryWeather = function(date) {
-//         var weatherKey = "0e06fc3239af5ded708f925cfeb73640"
-//         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + weatherKey 
-
-//         //Promise object for asynchonous execution - pending, fulfilled, and rejected 
-//         $.ajax({
-//             url: queryURL,
-//             method: 'GET',
-//         }).then(function(response){
-//             console.log(response)
-//             // fiveDayDisplay(response)
-
-//         })
-
-
-//     }
-
-// queryWeather()
-
-     
-
-
-    
-
-
-
-    
-
-    //function that takes in a day as an argument, make a call to weather API to retrieve data for the specific day
-    //dynamically creates HTML elements 
-    // var fiveDayDisplay = function(data) {
-    // var 
-    
-    // var day2 = $("<container>").text("ISSSS GON RAIN").attr("class", "day").attr("id", "day")
-    // $("#fiveDay").append(day2)
-
-
-    // }
-    
-    
-//     var queryWeather = function(date) {
-//         var weatherKey = "0e06fc3239af5ded708f925cfeb73640"
-//         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + weatherKey 
-
-//         //Promise object for asynchonous execution - pending, fulfilled, and rejected 
-//         $.ajax({
-//             url: queryURL,
-//             method: 'GET',
-//         }).then(function(response){
-//             console.log(response)
-//             // fiveDayDisplay(response)
-
-//         })
-
-
-//     }
-
-// queryWeather()
-
-
-    
-    
     
 </script>
 

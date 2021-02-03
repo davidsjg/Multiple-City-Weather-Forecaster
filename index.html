@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
     <link rel="stylesheet" href="style.css"/>
-    <div class="weather-icon"><img src="icons/unknown.png"/></div>
+    <!-- <div class="weather-icon"><img src="icons/unknown.png"/></div> -->
     <title>Weather Dashboard</title>
 </head>
 
@@ -42,15 +42,11 @@
                     <div class="row" id="fiveDay"></div>
             </div>
         </div>    
-</div>
+        
+    </div>
 
-
-
-
-
-
+</container>
 </body>
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -60,11 +56,8 @@
         // locationIcon.innerHTML=<img src="icons/${icon}.png"
         $(".mainDisp").text("WEATHER DASHBOARD")
         var history = localStorage.getItem("history") || []
-    
+        $("#fullDisplay").hide()
 
-    // loadLocalStorage ()
-
-    $("#fullDisplay").hide()
 
     // ON CLICK EVENT carries out after search button is pressed  >>>>>>>>>> ON CLICK - SEARCH
     $("#searchBtn").on("click", function() {
@@ -74,13 +67,7 @@
 
 
 
-
-
-
-
-
-
-        // $("#fullDisplay").  HOW DO I CLEAR THAT DAMN DIV WHEN I CLICK SEARCH FOR SECOND TIME??
+        // $("#fullDisplay").  
         $("#fullDisplay").show()
 
         var weatherKey = "0e06fc3239af5ded708f925cfeb73640"
@@ -91,15 +78,19 @@
             method: "GET"
         }).then(function(response) {
             $("#cityCurrent").empty()
+            $("#fiveDay").empty()
+            console.log("you are in AJAX FILL CITY DATA ")
+            fillCityData(response)
+            addCityButton(response)
             var results = response.data 
             var parentID = response.id
             console.log(typeof cityName)
             console.log(cityName)
-            // history.push(cityName)
+            history.push(cityName)
             localStorage.setItem("history", JSON.stringify(history))
-            // creating searched city button dynamically ®
-            addCityButton(response)
-            fillCityData(response)
+
+
+
         });
 
         
@@ -112,6 +103,9 @@
             url: queryURL2,
             method: "GET"
         }).then(function(response) {
+            
+            $("#fiveDayTitle").empty()
+            $("#fiveDay").empty()
             console.log(response)
             fillFivedayData(response)
         })
@@ -135,33 +129,25 @@
             $("#fiveDay").empty()
             var results = response.data 
             console.log(response)
-            // creating searched city button dynamically ®
-            // addCityButton(response)
             fillCityData(response)
-            // fillFivedayData(response)
         });
 
+        var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=0e06fc3239af5ded708f925cfeb73640"
+        $.ajax({
+            url: queryURL2,
+            method: "GET"
+        }).then(function(response) {
+            
+            $("#fiveDayTitle").empty()
+            $("#fiveDay").empty()
+            console.log(response)
+            fillFivedayData(response)
+        })
+        
+
+        
 
     })
-
-
-// function getWeather (currWeather) {
-// console.log(currWeather)
-//     var weatherKey = "0e06fc3239af5ded708f925cfeb73640"
-//         var cityName = $("#cityEntered").val()
-//         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + weatherKey
-//         // makes promise and pulls weather API from openweathermap
-//         $.ajax({
-//             url: queryURL,
-//             method: "GET"
-//         }).then(function(currWeather) {
-//             var results = currWeather.data 
-           
-//             fillCityData(currWeather)
-//             fillFivedayData(currWeather)
-//         });
-
-// }
 
 
 function addCityButton (cityEnt) {
@@ -179,6 +165,7 @@ function fillCityData (fillData){
 
     var tempK = fillData.main.temp
     tempF = ((tempK - 273.15) * 1.8 +32).toFixed(0)
+
 
     var cityTitle = $("<h2>")
     cityTitle.text(fillData.name)
@@ -216,37 +203,91 @@ function fillFivedayData (response){
 
     //dynamically create day 1 display forecast conditions
     var day1 = $("<container>")
-    day1.attr("class", "day").attr("id", "day")
+    day1.attr("class", "day").attr("id", "day1")
     $("#fiveDay").append(day1)
+    //dynamically create day 1 display forecast conditions
+    var day2 = $("<container>")
+    day2.attr("class", "day").attr("id", "day2")
+    $("#fiveDay").append(day2)
+    //dynamically create day 1 display forecast conditions
+    var day3 = $("<container>")
+    day3.attr("class", "day").attr("id", "day3")
+    $("#fiveDay").append(day3)
+    //dynamically create day 1 display forecast conditions
+    var day4 = $("<container>")
+    day4.attr("class", "day").attr("id", "day4")
+    $("#fiveDay").append(day4)
+    //dynamically create day 1 display forecast conditions
+    var day5 = $("<container>")
+    day5.attr("class", "day").attr("id", "day5")
+    $("#fiveDay").append(day5)
 
     //dynamically create day date for day 1
 
-    
     var date1 = $("<div>").text(response.list[0].dt_txt).attr("class", "date")
-    $("#day").append(date1)
+    $("#day1").append(date1)
     //dynamically create img for day 1
     var sky1 = $("<div>").text(response.list[0].weather[0].icon).attr("class", "currentSky")
-    $("#day").append(sky1)
+    $("#day1").append(sky1)
     //dynamically create temp for day 1
     var temp1 = $("<div>").text("Temp: " + tempF).attr("class", "currentTemp")
-    $("#day").append(temp1)
+    $("#day1").append(temp1)
     //dynamically create humidity for day 1
     var humidity1 = $("<div>").text("Humidity: " + response.list[0].main.humidity + "%").attr("class", "currentHum")
-    $("#day").append(humidity1)
+    $("#day1").append(humidity1)
+
+    //dynamically create day date for day 2
+
+    var date2 = $("<div>").text(response.list[8].dt_txt).attr("class", "date")
+    $("#day2").append(date2)
+    //dynamically create img for day 1
+    var sky2 = $("<div>").text(response.list[8].weather[0].icon).attr("class", "currentSky")
+    $("#day2").append(sky2)
+    //dynamically create temp for day 1
+    var temp2 = $("<div>").text("Temp: " + tempF).attr("class", "currentTemp")
+    $("#day2").append(temp2)
+    //dynamically create humidity for day 1
+    var humidity2 = $("<div>").text("Humidity: " + response.list[8].main.humidity + "%").attr("class", "currentHum")
+    $("#day2").append(humidity2)
 
 
-    //dynamically create day 2 display forecast conditions
-    var day2 = $("<container>").text("ISSSS GON RAIN").attr("class", "day").attr("id", "day")
-    $("#fiveDay").append(day2)
-    //dynamically create day 3 display forecast conditions
-    var day3 = $("<container>").text("ISS BLOWIN YALL").attr("class", "day").attr("id", "day")
-    $("#fiveDay").append(day3)
-    //dynamically create day 4 display forecast conditions
-    var day4 = $("<container>").text("ISS BLOWIN YALL").attr("class", "day").attr("id", "day")
-    $("#fiveDay").append(day4)
-    //dynamically create day 5 display forecast conditions
-    var day5 = $("<container>").text("ISS BLOWIN YALL").attr("class", "day").attr("id", "day")
-    $("#fiveDay").append(day5)
+    var date3 = $("<div>").text(response.list[16].dt_txt).attr("class", "date")
+    $("#day3").append(date3)
+    //dynamically create img for day 1
+    var sky3 = $("<div>").text(response.list[16].weather[0].icon).attr("class", "currentSky")
+    $("#day3").append(sky3)
+    //dynamically create temp for day 1
+    var temp3 = $("<div>").text("Temp: " + tempF).attr("class", "currentTemp")
+    $("#day3").append(temp3)
+    //dynamically create humidity for day 1
+    var humidity3 = $("<div>").text("Humidity: " + response.list[16].main.humidity + "%").attr("class", "currentHum")
+    $("#day3").append(humidity3)
+    
+    var date4 = $("<div>").text(response.list[24].dt_txt).attr("class", "date")
+    $("#day4").append(date4)
+    //dynamically create img for day 1
+    var sky4 = $("<div>").text(response.list[24].weather[0].icon).attr("class", "currentSky")
+    $("#day4").append(sky4)
+    //dynamically create temp for day 1
+    var temp4 = $("<div>").text("Temp: " + tempF).attr("class", "currentTemp")
+    $("#day4").append(temp4)
+    //dynamically create humidity for day 1
+    var humidity4 = $("<div>").text("Humidity: " + response.list[24].main.humidity + "%").attr("class", "currentHum")
+    $("#day4").append(humidity4)
+
+    var date5 = $("<div>").text(response.list[32].dt_txt).attr("class", "date")
+    $("#day5").append(date5)
+    //dynamically create img for day 1
+    var sky5 = $("<div>").text(response.list[32].weather[0].icon).attr("class", "currentSky")
+    $("#day5").append(sky5)
+    //dynamically create temp for day 1
+    var temp5 = $("<div>").text("Temp: " + tempF).attr("class", "currentTemp")
+    $("#day5").append(temp5)
+    //dynamically create humidity for day 1
+    var humidity5 = $("<div>").text("Humidity: " + response.list[32].main.humidity + "%").attr("class", "currentHum")
+    $("#day5").append(humidity5)
+
+
 }
 
 

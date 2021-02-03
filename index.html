@@ -58,6 +58,17 @@
         var history = localStorage.getItem("history") || []
         $("#fullDisplay").hide()
 
+        console.log(history)
+
+        init()
+        function init () {
+        for (var i = 0; i < 10; i++){
+            addCityButton(JSON.stringify(history))
+        }
+
+    }
+
+
 
     // ON CLICK EVENT carries out after search button is pressed  >>>>>>>>>> ON CLICK - SEARCH
     $("#searchBtn").on("click", function() {
